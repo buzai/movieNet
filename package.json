@@ -7,5 +7,19 @@
     "mongoose": "^4.4.16",
     "serve-static": "^1.10.2",
     "underscore": "^1.8.3"
-  }
+  },
+  "name": "0.0.1",
+  "version": "0.0.1",
+  "description": "a node demo",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "movie",
+    "node"
+  ],
+  "author": "chenH",
+  "license": "MIT"
 }
