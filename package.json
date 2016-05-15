@@ -2,6 +2,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
+    "grunt": "^1.0.1",
     "jade": "^1.11.0",
     "moment": "^2.13.0",
     "mongoose": "^4.4.16",
@@ -12,7 +13,9 @@
   "version": "0.0.1",
   "description": "a node demo",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-contrib-watch": "^1.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
