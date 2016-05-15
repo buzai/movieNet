@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
+var bctypt = require('bcryptjs');
 var SALT_WORL_FACTOR = 10;
 var MovieSchema = new mongoose.Schema({
     name: {
@@ -35,16 +35,17 @@ MovieSchema.pre('save', function (next) {
 
     bctypt.genSalt(SALT_WORL_FACTOR, function (err, salt) {
         if (err) { return next(err) }
+
         bctypt.hash(user.password, salt, function (err, hash) {
             if (err) { return next(err) }
 
             user.password = hash
             next()
         })
+
     })
 
-    next();
-});
+}); 
 
 MovieSchema.statics = {
     fetch: function (cb) {
