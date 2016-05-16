@@ -37,8 +37,7 @@ app.get('/', function (req, res) {
 //user router
 app.post('/user/signup', function (req, res) {
     var _user = req.body.user;
-    var user = new User(_user);
-
+    var newUser = new User(_user);
     User.findOne({name:_user.name}, function (err, user) {
         if (err) {console.log(err)}
 
@@ -48,9 +47,10 @@ app.post('/user/signup', function (req, res) {
 
         else {
 
-        user.save(function (err, user) {
+        newUser.save(function (err, user) {
             if (err) { console.log(err) }
             // console.log(user);
+            console.log(user)
             res.redirect('/')
         });
 
@@ -59,6 +59,33 @@ app.post('/user/signup', function (req, res) {
 
 
 
+});
+
+app.post('/user/signin', function (req, res) {
+    var _user = req.body.user;
+    var name = _user.name;
+    var password = _user.password;
+    User.findOne({name: name}, function (err, user) {
+        if (err) {console.log(err)};
+
+        if (!user) {
+            console.log('dont have this user');
+            return res.redirect('/');
+        }
+
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) {
+                console.log(err);
+            }
+            if (isMatch) {
+                console.log('password is right');
+                return res.redirect('/');
+            }
+            else {
+                console.log('password is not right');
+            }
+        })
+    })
 })
 
 app.get('/detail/:id', function (req, res) {

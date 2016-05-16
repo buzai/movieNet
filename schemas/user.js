@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bctypt = require('bcryptjs');
 var SALT_WORL_FACTOR = 10;
-var MovieSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
     name: {
         unique: true,
         type: String
@@ -23,7 +23,7 @@ var MovieSchema = new mongoose.Schema({
 });
 
 
-MovieSchema.pre('save', function (next) {
+UserSchema.pre('save', function (next) {
 
     var user = this;
 
@@ -47,7 +47,20 @@ MovieSchema.pre('save', function (next) {
 
 }); 
 
-MovieSchema.statics = {
+
+UserSchema.methods = {
+    comparePassword: function(_password, cb) {
+        bctypt.compare(_password, this.password, function(err, isMatch) {
+            if (err) {
+                console.log(err);
+                return cb(err);
+            }
+            cb(null, isMatch);
+        })
+    }
+}
+
+UserSchema.statics = {
     fetch: function (cb) {
         return this
             .find({})
@@ -61,4 +74,4 @@ MovieSchema.statics = {
     }
 };
 
-module.exports = MovieSchema;
+module.exports = UserSchema;
