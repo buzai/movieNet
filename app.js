@@ -10,9 +10,25 @@ var Movie = require('./models/movie');
 var User = require('./models/user')
 var port = process.env.PORT || 3000;
 var app = express();
+var connect = require('connect');
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
+const session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-mongoose.connect('mongodb://localhost/imoocc');
+var dbUrl = 'mongodb://localhost/imoocc';
+mongoose.connect(dbUrl);
 
+app.use(cookieParser());
+app.use(session({
+    secret: 'foo',
+    store: new MongoStore({
+        url: dbUrl,
+        collection: 'sessions'
+    }),
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(static('public'));
 app.set('views','./views/pages/');
@@ -22,6 +38,14 @@ app.listen(port)
 console.log('moview is staring '+port)
 
 app.get('/', function (req, res) {
+    console.log('use in session');
+    console.log(req.session.user);
+
+    var _user = req.session.user;
+    if (_user) {
+        app.locals.user = _user;
+    }
+
     Movie.fetch(function (err,movies){
         if (err) {
             console.log(err);
@@ -56,9 +80,6 @@ app.post('/user/signup', function (req, res) {
 
         }
     });
-
-
-
 });
 
 app.post('/user/signin', function (req, res) {
@@ -79,6 +100,7 @@ app.post('/user/signin', function (req, res) {
             }
             if (isMatch) {
                 console.log('password is right');
+                req.session.user = user
                 return res.redirect('/');
             }
             else {
@@ -87,6 +109,11 @@ app.post('/user/signin', function (req, res) {
         })
     })
 })
+
+app.get('/logout', function (req, res) {
+    delete req.session.user;
+    res.redirect('/');
+});
 
 app.get('/detail/:id', function (req, res) {
     var id = req.params.id;
