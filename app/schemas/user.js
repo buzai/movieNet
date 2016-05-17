@@ -9,6 +9,16 @@ var UserSchema = new mongoose.Schema({
 
     password: String,
 
+    role: {
+        type:Number,
+        default:0
+    },
+    // 0 is normal
+    // 1 激活过得
+    // 2 资料完全的高级
+    // 3 微博登陆用户（31绑定过的)
+    // 4 微信登陆（41)
+
     meta: {
         createAt: {
             type: Date,

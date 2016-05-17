@@ -2,6 +2,7 @@
 var Index = require('../app/controllers/index')
 var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
+var Comment = require('../app/controllers/comment')
 
 module.exports = function(app) {
 
@@ -15,17 +16,18 @@ module.exports = function(app) {
     //index
     app.get('/', Index.index);
 
-
     //user router
     app.post('/user/signup', User.signup);
 
     app.post('/user/signin', User.signin);
 
     app.get('/logout', User.logout);
+    app.get('/signin', User.showSignin);
+    app.get('/signup', User.showSignup);
 
 
     //admin page add new movie
-    app.get('/admin/movie', Movie.new);
+    app.get('/admin/movie', User.signinRequested, User.adminRequested, Movie.new);
 
     //admin update movie
     app.get('/admin/update/:id', Movie.update);
@@ -41,6 +43,10 @@ module.exports = function(app) {
 
     //detail page
     app.get('/detail/:id', Movie.detail);
+
+
+    //comment 
+    app.post('/admin/comment',User.signinRequested, Comment.save);
 
 }
 

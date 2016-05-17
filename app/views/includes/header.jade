@@ -35,7 +35,7 @@
             input#signupName.form-control(name="user[password]", type="text")
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-          button.btn.btn-success(type="submit") 提交
+          button.btn.btn-success(type="submit") 注册
 
 
 
@@ -43,7 +43,7 @@
   .modal-dialog
     .modal-content
       form(method="POST", action="/user/signin")
-        .modal-header 注册
+        .modal-header 登陆
         .modal-body
           .form-group
             lable(for="signinName") 用户名
@@ -54,4 +54,4 @@
             input#signinName.form-control(name="user[password]", type="text")
         .modal-footer
           button.btn.btn-default(type="button", data-dismiss="modal") 关闭
-          button.btn.btn-success(type="submit") 提交
+          button.btn.btn-success(type="submit") 登陆
